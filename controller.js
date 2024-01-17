@@ -1,11 +1,8 @@
 const handleGet = (req, res, parsedUrl, evacuationPlansArray) => {
     const queryParamId = parsedUrl.query.id;
     if(parsedUrl.pathname === "/plans"){
-        if ( !queryParamId) {
-            res.statusCode = 200;
-            res.setHeader("Content-Type", "application/json");
-            res.end(JSON.stringify(evacuationPlansArray));
-        } else { 
+        
+        if (queryParamId) {
             const matchingPlan = evacuationPlansArray.find(plan => plan.id == queryParamId);
             if (matchingPlan) {
                 res.statusCode = 200;
@@ -16,13 +13,23 @@ const handleGet = (req, res, parsedUrl, evacuationPlansArray) => {
                 res.setHeader("Content-Type", "text/plain");
                 res.end("Plan with the specified id not found");
             }
-        }
+            
+        }else{
+            if(queryParamId === ''){ 
+                res.statusCode = 400;
+                res.setHeader("Content-Type", "text/plain");
+                res.end("Bad Request");
+            }else{
+                res.statusCode = 200;
+                res.setHeader("Content-Type", "application/json");
+                res.end(JSON.stringify(evacuationPlansArray));
+            }
+        }      
     }else{
         res.statusCode = 404;
         res.setHeader("Content-Type", "text/plain");
         res.end("Not Found");
     }
-    
 };
 
 const handlePost = (req, res, parsedUrl, evacuationPlansArray) => {
@@ -32,7 +39,7 @@ const handlePost = (req, res, parsedUrl, evacuationPlansArray) => {
 
 
     if(parsedUrl.pathname === "/new-plan"){
-        if (queryParamId !== undefined && queryParamName !== undefined) {
+        if (queryParamId !== undefined && queryParamName !== undefined && queryParamId !== '' && queryParamName !== '') {
             const matchingPlan = evacuationPlansArray.find(plan => plan.id == queryParamId);
     
             if (matchingPlan) {
@@ -62,7 +69,7 @@ const handlePut = (req, res, parsedUrl, evacuationPlansArray) => {
     const queryParamId = parsedUrl.query.id;
     const queryParamName = parsedUrl.query.namePlan;
     if(parsedUrl.pathname === "/update-plan"){
-        if (queryParamId !== undefined && queryParamName !== undefined) {
+        if (queryParamId !== undefined && queryParamName !== undefined && queryParamId !== '' && queryParamName !== '') {
             const matchingPlan = evacuationPlansArray.find(plan => plan.id == queryParamId);
             if (matchingPlan) {
                 matchingPlan.namePlan = queryParamName;
@@ -115,8 +122,6 @@ const handleDelete = (req, res, parsedUrl, evacuationPlansArray) => {
     }
     
 };
-
-
 
 
 module.exports = {

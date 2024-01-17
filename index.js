@@ -2,7 +2,7 @@ const http = require("http");
 const url = require("url");
 const {  handleEvacuationPlanRequest,initializeEvacuationPlansArray,saveEvacuationPlansArray} = require("./router");
 
-
+// my data
 const evacuationPlansArray = initializeEvacuationPlansArray();
 
 const server = http.createServer((req, res) => {
