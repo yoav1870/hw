@@ -1,6 +1,18 @@
 const fs = require("fs");
 const path = require("path");
 
+const state = () => {
+    let isModified = false;
+
+    return {
+        getIsModified: () => isModified,
+        setIsModified: (value) => isModified = value,
+    };
+};
+
+const initializeEvacuationPlansArray = () => {
+    return getEvacuationPlansArray();
+};
 const repositoryFilePath = path.join(__dirname, "repository.json");
 
 const getEvacuationPlansArray = () => {
@@ -25,4 +37,6 @@ const saveEvacuationPlansArray = (evacuationPlansArray) => {
 module.exports = {
     getEvacuationPlansArray,
     saveEvacuationPlansArray,
+    state,
+    initializeEvacuationPlansArray,
 };

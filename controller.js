@@ -1,3 +1,9 @@
+const { getEvacuationPlansArray, saveEvacuationPlansArray,isModified, state } = require("./repository");
+
+
+
+
+
 const handleGet = (req, res, parsedUrl, evacuationPlansArray) => {
     const queryParamId = parsedUrl.query.id;
     if(parsedUrl.pathname === "/plans"){
@@ -32,7 +38,7 @@ const handleGet = (req, res, parsedUrl, evacuationPlansArray) => {
     }
 };
 
-const handlePost = (req, res, parsedUrl, evacuationPlansArray) => {
+const handlePost = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
     const queryParamId = parsedUrl.query.id;
     const queryParamName = parsedUrl.query.namePlan;
     
@@ -51,6 +57,7 @@ const handlePost = (req, res, parsedUrl, evacuationPlansArray) => {
                 evacuationPlansArray.push(newPlan);
                 res.statusCode = 201;
                 res.setHeader("Content-Type", "application/json");
+                stateJson.setIsModified(true);
                 res.end(JSON.stringify(evacuationPlansArray));
             }
         } else {
@@ -65,7 +72,7 @@ const handlePost = (req, res, parsedUrl, evacuationPlansArray) => {
     }   
 };
 
-const handlePut = (req, res, parsedUrl, evacuationPlansArray) => {
+const handlePut = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
     const queryParamId = parsedUrl.query.id;
     const queryParamName = parsedUrl.query.namePlan;
     if(parsedUrl.pathname === "/update-plan"){
@@ -75,6 +82,7 @@ const handlePut = (req, res, parsedUrl, evacuationPlansArray) => {
                 matchingPlan.namePlan = queryParamName;
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
+                stateJson.setIsModified(true);
                 res.end(JSON.stringify(evacuationPlansArray));
             } else {
                 res.statusCode = 404;
@@ -93,7 +101,7 @@ const handlePut = (req, res, parsedUrl, evacuationPlansArray) => {
     }
 };
 
-const handleDelete = (req, res, parsedUrl, evacuationPlansArray) => {
+const handleDelete = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
     const queryParamId = parsedUrl.query.id;
     if(parsedUrl.pathname === "/delete-plan"){
         if (queryParamId !== undefined) {
@@ -104,6 +112,7 @@ const handleDelete = (req, res, parsedUrl, evacuationPlansArray) => {
                 evacuationPlansArray.splice(index, 1);
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
+                stateJson.setIsModified(true);
                 res.end(JSON.stringify(evacuationPlansArray));
             } else {
                 res.statusCode = 404;

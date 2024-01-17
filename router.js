@@ -1,11 +1,6 @@
-const { getEvacuationPlansArray, saveEvacuationPlansArray } = require("./repository");
 const { handleGet, handlePost, handlePut, handleDelete } = require("./controller");
 
-const initializeEvacuationPlansArray = () => {
-    return getEvacuationPlansArray();
-};
-
-const handleEvacuationPlanRequest = (req, res, parsedUrl, evacuationPlansArray) => {
+const handleEvacuationPlanRequest = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
     const { method } = req;
     
     switch (method) {
@@ -13,13 +8,13 @@ const handleEvacuationPlanRequest = (req, res, parsedUrl, evacuationPlansArray) 
             handleGet(req, res, parsedUrl, evacuationPlansArray);
             break;
         case "POST":
-            handlePost(req, res, parsedUrl, evacuationPlansArray);
+            handlePost(req, res, parsedUrl, evacuationPlansArray,stateJson);
             break;
         case "PUT":
-            handlePut(req, res, parsedUrl, evacuationPlansArray);
+            handlePut(req, res, parsedUrl, evacuationPlansArray,stateJson);
             break;
         case "DELETE":
-            handleDelete(req, res, parsedUrl, evacuationPlansArray);
+            handleDelete(req, res, parsedUrl, evacuationPlansArray,stateJson);
             break;
         default:
             res.statusCode = 404;
@@ -31,6 +26,4 @@ const handleEvacuationPlanRequest = (req, res, parsedUrl, evacuationPlansArray) 
 
 module.exports = {
     handleEvacuationPlanRequest,
-    initializeEvacuationPlansArray,
-    saveEvacuationPlansArray
 };
