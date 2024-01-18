@@ -1,13 +1,24 @@
 const { getEvacuationPlansArray, saveEvacuationPlansArray , initializeEvacuationPlansArray } = require("./repository");
+const winston = require('winston');
 
 // my data
 const evacuationPlansArray = initializeEvacuationPlansArray();
 
-
+//  Winston 
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.File({ filename: 'index.log' }),  
+  ],
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+});
 
 
 
 const handleGet = (req, res, parsedUrl) => {
+    logger.info('Handling GET request');
     const queryParamId = parsedUrl.query.id;
     if(parsedUrl.pathname === "/plans"){
         
@@ -44,7 +55,7 @@ const handleGet = (req, res, parsedUrl) => {
 const handlePost = (req, res, parsedUrl) => {
     const queryParamId = parsedUrl.query.id;
     const queryParamName = parsedUrl.query.namePlan;
-    
+    logger.info('Handling POST request');
 
 
     if(parsedUrl.pathname === "/new-plan"){
@@ -78,6 +89,7 @@ const handlePost = (req, res, parsedUrl) => {
 const handlePut = (req, res, parsedUrl) => {
     const queryParamId = parsedUrl.query.id;
     const queryParamName = parsedUrl.query.namePlan;
+    logger.info('Handling PUT request');
     if(parsedUrl.pathname === "/update-plan"){
         if (queryParamId !== undefined && queryParamName !== undefined && queryParamId !== '' && queryParamName !== '') {
             const matchingPlan = evacuationPlansArray.find(plan => plan.id == queryParamId);
@@ -106,6 +118,7 @@ const handlePut = (req, res, parsedUrl) => {
 
 const handleDelete = (req, res, parsedUrl) => {
     const queryParamId = parsedUrl.query.id;
+    logger.info('Handling DELETE request');
     if(parsedUrl.pathname === "/delete-plan"){
         if (queryParamId !== undefined) {
             const matchingPlan = evacuationPlansArray.find(plan => plan.id == queryParamId);
