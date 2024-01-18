@@ -1,0 +1,4 @@
+{"level":"error","message":"Handling GET request : not found","timestamp":"2024-01-18T11:39:34.802Z"}
+{"level":"error","message":"Handling GET request : bad request","timestamp":"2024-01-18T11:39:56.410Z"}
+{"level":"error","message":"Handling GET request : conflict","timestamp":"2024-01-18T11:40:08.599Z"}
+{"level":"error","message":"Handling POST request : conflict","timestamp":"2024-01-18T11:40:16.161Z"}
