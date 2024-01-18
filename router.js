@@ -1,20 +1,20 @@
 const { handleGet, handlePost, handlePut, handleDelete } = require("./controller");
 
-const handleEvacuationPlanRequest = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
+const handleEvacuationPlanRequest = (req, res, parsedUrl) => {
     const { method } = req;
     
     switch (method) {
         case "GET":
-            handleGet(req, res, parsedUrl, evacuationPlansArray);
+            handleGet(req, res, parsedUrl);
             break;
         case "POST":
-            handlePost(req, res, parsedUrl, evacuationPlansArray,stateJson);
+            handlePost(req, res, parsedUrl);
             break;
         case "PUT":
-            handlePut(req, res, parsedUrl, evacuationPlansArray,stateJson);
+            handlePut(req, res, parsedUrl);
             break;
         case "DELETE":
-            handleDelete(req, res, parsedUrl, evacuationPlansArray,stateJson);
+            handleDelete(req, res, parsedUrl);
             break;
         default:
             res.statusCode = 404;

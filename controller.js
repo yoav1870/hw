@@ -1,10 +1,13 @@
-const { getEvacuationPlansArray, saveEvacuationPlansArray,isModified, state } = require("./repository");
+const { getEvacuationPlansArray, saveEvacuationPlansArray , initializeEvacuationPlansArray } = require("./repository");
+
+// my data
+const evacuationPlansArray = initializeEvacuationPlansArray();
 
 
 
 
 
-const handleGet = (req, res, parsedUrl, evacuationPlansArray) => {
+const handleGet = (req, res, parsedUrl) => {
     const queryParamId = parsedUrl.query.id;
     if(parsedUrl.pathname === "/plans"){
         
@@ -38,7 +41,7 @@ const handleGet = (req, res, parsedUrl, evacuationPlansArray) => {
     }
 };
 
-const handlePost = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
+const handlePost = (req, res, parsedUrl) => {
     const queryParamId = parsedUrl.query.id;
     const queryParamName = parsedUrl.query.namePlan;
     
@@ -55,9 +58,9 @@ const handlePost = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
             } else {
                 let newPlan = { id: queryParamId, namePlan: queryParamName };
                 evacuationPlansArray.push(newPlan);
+                saveEvacuationPlansArray(evacuationPlansArray);
                 res.statusCode = 201;
                 res.setHeader("Content-Type", "application/json");
-                stateJson.setIsModified(true);
                 res.end(JSON.stringify(evacuationPlansArray));
             }
         } else {
@@ -72,7 +75,7 @@ const handlePost = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
     }   
 };
 
-const handlePut = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
+const handlePut = (req, res, parsedUrl) => {
     const queryParamId = parsedUrl.query.id;
     const queryParamName = parsedUrl.query.namePlan;
     if(parsedUrl.pathname === "/update-plan"){
@@ -80,9 +83,9 @@ const handlePut = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
             const matchingPlan = evacuationPlansArray.find(plan => plan.id == queryParamId);
             if (matchingPlan) {
                 matchingPlan.namePlan = queryParamName;
+                saveEvacuationPlansArray(evacuationPlansArray);
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
-                stateJson.setIsModified(true);
                 res.end(JSON.stringify(evacuationPlansArray));
             } else {
                 res.statusCode = 404;
@@ -101,7 +104,7 @@ const handlePut = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
     }
 };
 
-const handleDelete = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
+const handleDelete = (req, res, parsedUrl) => {
     const queryParamId = parsedUrl.query.id;
     if(parsedUrl.pathname === "/delete-plan"){
         if (queryParamId !== undefined) {
@@ -110,9 +113,9 @@ const handleDelete = (req, res, parsedUrl, evacuationPlansArray,stateJson) => {
             if (matchingPlan) {
                 const index = evacuationPlansArray.indexOf(matchingPlan);
                 evacuationPlansArray.splice(index, 1);
+                saveEvacuationPlansArray(evacuationPlansArray);
                 res.statusCode = 200;
                 res.setHeader("Content-Type", "application/json");
-                stateJson.setIsModified(true);
                 res.end(JSON.stringify(evacuationPlansArray));
             } else {
                 res.statusCode = 404;
