@@ -16,3 +16,6 @@ Instructions
  * Router - consists all the options to do.
  * Controllers – direct the functionality of the system
  * Data Base – Json.
+
+
+postman- https://documenter.getpostman.com/view/32136851/2s9YsRbUCP
